@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Tabs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .Exchange {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+
+        .Exchange-content {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .Exchange-right,
+        .Exchange-left {
+            width: 48%;
+        }
+
+        .Exchange-swap-box {
+            border: 1px solid #ddd;
+            padding: 20px;
+        }
+
+        .Tab {
+            display: flex;
+            cursor: pointer;
+        }
+
+        .Tab-option {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background-color: #f2f2f2;
+        }
+
+        .Tab-option.active {
+            background-color: #4caf50;
+            color: #fff;
+        }
+
+        .Exchange-swap-section {
+            margin-top: 10px;
+        }
+
+        .Exchange-swap-section-top {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .Exchange-swap-input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .Exchange-leverage-slider {
+            margin-top: 10px;
+        }
+
+        .Exchange-info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+        }
+
+        .Exchange-swap-button-container {
+            margin-top: 15px;
+        }
+
+        .button {
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .button.primary-action {
+            background-color: #4caf50;
+            color: #fff;
+        }
+
+        .button.secondary-action {
+            background-color: #f2f2f2;
+        }
+
+        .Exchange-wallet-tokens-content {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .ExchangeWalletTokens-token-row {
+            flex: 1;
+            margin: 5px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .ExchangeChart {
+            margin-top: 20px;
+        }
+
+        .Exchange-list-tab-container {
+            margin-bottom: 10px;
+        }
+
+        .Exchange-list-tabs {
+            display: flex;
+            cursor: pointer;
+        }
+
+        .Exchange-list-tab-container .Tab-option {
+            margin-right: 10px;
+        }
+
+        .Exchange-list.large {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .Exchange-list-header th {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+        }
+
+        .Exchange-list tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .Exchange-empty-positions-list-note {
+            margin: 20px;
+            padding: 10px;
+            text-align: center;
+            color: #888;
+        }
+
+        .ExchangeChart-info-label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .ExchangeChart-main-price {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .ExchangeChart-additional-info {
+            margin-top: 5px;
+        }
+
+        .ExchangeChart-info-label,
+        .ExchangeChart-additional-info div {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .ExchangeChart-additional-info div {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="Exchange page-layout">
+        <div class="Exchange-content">
+            <div class="Exchange-right">
+                <div class="Exchange-swap-box">
+                    <div class="Exchange-swap-box-inner App-box-highlight">
+                        <div>
+                            <div class="Tab block">
+                                <div class="Tab-option muted active"><img class="Tab-option-icon"
+                                        src="/assets/long-0ea1df31.svg" alt="Long">Long</div>
+                                <div class="Tab-option muted"><img class="Tab-option-icon"
+                                        src="/assets/short-a68bbdaf.svg" alt="Long">Short</div>
+                                <div class="Tab-option muted"><img class="Tab-option-icon"
+                                        src="/assets/swap-91d6c1f0.svg" alt="Long">Swap</div><span
+                                    class="tab-items-animate-3"></span>
+                            </div>
+                            <div class="Tab block Exchange-swap-order-type-tabs">
+                                <div class="Tab-option muted active">Market</div>
+                                <div class="Tab-option muted">Limit</div><span class="tab-items-animate-2"></span>
+                            </div>
+                        </div>
+                        <div class="Exchange-swap-section bottom-margin">
+                            <div class="Exchange-swap-section-top">
+                                <div class="muted">Pay</div>
+                            </div>
+                            <div class="Exchange-swap-section-bottom">
+                                <div class="Exchange-swap-input-container"><input type="number" min="0"
+                                        placeholder="0.0" class="Exchange-swap-input" value=""></div>
+                                <div>
+                                    <div class="TokenSelector disabled">
+                                        <div class="TokenSelector-box">USDC.e<svg stroke="currentColor"
+                                                fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                                class="TokenSelector-caret" height="1em" width="1em"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M16.293 9.293 12 13.586 7.707 9.293l-1.414 1.414L12 16.414l5.707-5.707z">
+                                                </path>
+                                            </svg></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="Exchange-swap-section bottom-margin">
+                            <div class="Exchange-swap-section-top">
+                                <div class="muted">Long</div>
+                                <div class="Exchange-swap-value muted align-right">Leverage: 29.40x</div>
+                            </div>
+                            <div class="Exchange-swap-section-bottom">
+                                <div><input type="number" min="0" placeholder="0.0" class="Exchange-swap-input"
+                                        value=""></div>
+                                <div>
+                                    <div class="TokenSelector">
+                                        <div class="TokenSelector-box">EUR/USD<svg stroke="currentColor"
+                                                fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                                class="TokenSelector-caret" height="1em" width="1em"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M16.293 9.293 12 13.586 7.707 9.293l-1.414 1.414L12 16.414l5.707-5.707z">
+                                                </path>
+                                            </svg></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="Exchange-leverage-box">
+                            <div class="Exchange-leverage-slider-settings">
+                                <div class="Checkbox selected"><span class="Checkbox-icon-wrapper"><svg
+                                            stroke="currentColor" fill="currentColor" stroke-width="0" version="1.1"
+                                            viewBox="0 0 16 16" class="App-icon Checkbox-icon active" height="1em"
+                                            width="1em" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M14 0h-12c-1.1 0-2 0.9-2 2v12c0 1.1 0.9 2 2 2h12c1.1 0 2-0.9 2-2v-12c0-1.1-0.9-2-2-2zM7 12.414l-3.707-3.707 1.414-1.414 2.293 2.293 4.793-4.793 1.414 1.414-6.207 6.207z">
+                                            </path>
+                                        </svg></span><span class="Checkbox-label"><span class="muted">Leverage
+                                            slider</span></span></div>
+                            </div>
+                            <div class="Exchange-leverage-slider App-slider positive">
+                                <div class="rc-slider rc-slider-with-marks">
+                                    <div class="rc-slider-rail"></div>
+                                    <div class="rc-slider-track" style="left: 0%; right: auto; width: 28.6148%;"></div>
+                                    <div class="rc-slider-step"><span class="rc-slider-dot rc-slider-dot-active"
+                                            style="left: 8.99899%;"></span><span
+                                            class="rc-slider-dot rc-slider-dot-active"
+                                            style="left: 19.1102%;"></span><span class="rc-slider-dot"
+                                            style="left: 34.277%;"></span><span class="rc-slider-dot"
+                                            style="left: 49.4439%;"></span><span class="rc-slider-dot"
+                                            style="left: 74.7219%;"></span><span class="rc-slider-dot"
+                                            style="left: 100%;"></span></div>
+                                    <div tabindex="0" class="rc-slider-handle" role="slider" aria-valuemin="1.1"
+                                        aria-valuemax="100" aria-valuenow="29.4" aria-disabled="false"
+                                        style="left: 28.6148%; right: auto; transform: translateX(-50%);"></div>
+                                    <div class="rc-slider-mark"><span
+                                            class="rc-slider-mark-text rc-slider-mark-text-active"
+                                            style="transform: translateX(-50%); left: 8.99899%;">10x</span><span
+                                            class="rc-slider-mark-text rc-slider-mark-text-active"
+                                            style="transform: translateX(-50%); left: 19.1102%;">20x</span><span
+                                            class="rc-slider-mark-text"
+                                            style="transform: translateX(-50%); left: 34.277%;">35x</span><span
+                                            class="rc-slider-mark-text"
+                                            style="transform: translateX(-50%); left: 49.4439%;">50x</span><span
+                                            class="rc-slider-mark-text"
+                                            style="transform: translateX(-50%); left: 74.7219%;">75x</span><span
+                                            class="rc-slider-mark-text"
+                                            style="transform: translateX(-50%); left: 100%;">100x</span></div>
+                                </div>
+                            </div>
+                            <div class="Exchange-info-row">
+                                <div class="Exchange-info-label">Collateral In</div>
+                                <div class="align-right">USDC.e</div>
+                            </div>
+                            <div class="Exchange-info-row">
+                                <div class="Exchange-info-label">Leverage</div>
+                                <div class="align-right">-</div>
+                            </div>
+                            <div class="Exchange-info-row">
+                                <div class="Exchange-info-label">Entry Price</div>
+                                <div class="align-right">-</div>
+                            </div>
+                            <div class="Exchange-info-row">
+                                <div class="Exchange-info-label">Liq. Price</div>
+                                <div class="align-right">-</div>
+                            </div>
+                            <div class="Exchange-info-row">
+                                <div class="Exchange-info-label">Open Fees</div>
+                                <div class="align-right ">
+                                    <div>-</div>
+                                </div>
+                            </div>
+                            <div class="Exchange-info-row">
+                                <div class="Exchange-info-label">Dynamic Fees</div>
+                                <div class="align-right"><span class="Tooltip"><span class="Tooltip-handle">0.0005% /
+                                            1h</span></span></div>
+                            </div>
+                            <div class="Exchange-info-row">
+                                <div class="Exchange-info-label">Available Liquidity</div>
+                                <div class="align-right"><span class="Tooltip"><span
+                                            class="Tooltip-handle">$...</span></span></div>
+                            </div>
+                        </div>
+                        <div class="Exchange-swap-button-container"><button
+                                class="button button grow w-100 secondary-action disabled">Smart Router</button></div>
+                        <div class="Exchange-swap-button-container"><button class="button primary-action w-100">Connect
+                                Wallet</button></div>
+                    </div>
+                </div>
+                <div class="Exchange-wallet-tokens">
+                    <div class="Exchange-wallet-tokens-content">
+                        <div class="ExchangeWalletTokens App-box">
+                            <div class="ExchangeWalletTokens-token-row">
+                                <div class="ExchangeWalletTokens-top-row">
+                                    <div>EUR</div>
+                                </div>
+                                <div class="ExchangeWalletTokens-content-row">
+                                    <div class="ExchangeWalletTokens-token-name">Euro</div>
+                                </div>
+                            </div>
+                            <div class="ExchangeWalletTokens-token-row">
+                                <div class="ExchangeWalletTokens-top-row">
+                                    <div>GBP</div>
+                                </div>
+                                <div class="ExchangeWalletTokens-content-row">
+                                    <div class="ExchangeWalletTokens-token-name">British Pound</div>
+                                </div>
+                            </div>
+                            <div class="ExchangeWalletTokens-token-row">
+                                <div class="ExchangeWalletTokens-top-row">
+                                    <div>AUD</div>
+                                </div>
+                                <div class="ExchangeWalletTokens-content-row">
+                                    <div class="ExchangeWalletTokens-token-name">Australian Dollar</div>
+                                </div>
+                            </div>
+                            <div class="ExchangeWalletTokens-token-row">
+                                <div class="ExchangeWalletTokens-top-row">
+                                    <div>JPY</div>
+                                </div>
+                                <div class="ExchangeWalletTokens-content-row">
+                                    <div class="ExchangeWalletTokens-token-name">Japanese Yen</div>
+                                </div>
+                            </div>
+                            <div class="ExchangeWalletTokens-token-row">
+                                <div class="ExchangeWalletTokens-top-row">
+                                    <div>USDC.e</div>
+                                </div>
+                                <div class="ExchangeWalletTokens-content-row">
+                                    <div class="ExchangeWalletTokens-token-name">Bridged USDC</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="Exchange-left">
+                <div class="ExchangeChart tv">
+                    <div class="ExchangeChart-top">
+                        <div class="ExchangeChart-top-inner">
+                            <div>
+                                <div class="ExchangeChart-title">
+                                    <div class="ExchangeChart-selector">
+                                        <div class="TokenSelector">
+                                            <div class="TokenSelector-box">EUR/USD<svg stroke="currentColor"
+                                                    fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                                    class="TokenSelector-caret" height="1em" width="1em"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M16.293 9.293 12 13.586 7.707 9.293l-1.414 1.414L12 16.414l5.707-5.707z">
+                                                    </path>
+                                                </svg></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="ExchangeChart-main-price">$-</div>
+                                <div class="ExchangeChart-info-label">$-</div>
+                            </div>
+                            <div>
+                                <div class="ExchangeChart-info-label">24h Change</div>
+                                <div class="">-</div>
+                            </div>
+                            <div class="ExchangeChart-additional-info">
+                                <div class="ExchangeChart-info-label">24h High</div>
+                                <div>-</div>
+                            </div>
+                            <div class="ExchangeChart-additional-info">
+                                <div class="ExchangeChart-info-label">24h Low</div>
+                                <div>-</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ExchangeChart-bottom">
+                        <div id="tradingview_lexer" style="height: 100%;"><iframe id="tradingview_b8681"
+                                name="tradingview_b8681"
+                                src="/charting_library/en-tv-chart.e2a841ff.html#symbol=FX.EUR%2FUSD&amp;interval=4h&amp;toolbarbg=131722&amp;widgetbar=%7B%22details%22%3Afalse%2C%22watchlist%22%3Afalse%2C%22watchlist_settings%22%3A%7B%22default_symbols%22%3A%5B%5D%7D%7D&amp;timeFrames=%5B%7B%22text%22%3A%225y%22%2C%22resolution%22%3A%221W%22%7D%2C%7B%22text%22%3A%221y%22%2C%22resolution%22%3A%221W%22%7D%2C%7B%22text%22%3A%226m%22%2C%22resolution%22%3A%22120%22%7D%2C%7B%22text%22%3A%223m%22%2C%22resolution%22%3A%2260%22%7D%2C%7B%22text%22%3A%221m%22%2C%22resolution%22%3A%2230%22%7D%2C%7B%22text%22%3A%225d%22%2C%22resolution%22%3A%225%22%7D%2C%7B%22text%22%3A%221d%22%2C%22resolution%22%3A%221%22%7D%5D&amp;locale=en&amp;uid=tradingview_b8681&amp;clientId=0&amp;userId=0&amp;chartsStorageVer=1.0&amp;debug=false&amp;timezone=UTC&amp;theme=dark"
+                                title="Financial Chart" frameborder="0" allowtransparency="true" scrolling="no"
+                                allowfullscreen="" style="display: block; width: 100%; height: 100%;"></iframe></div>
+                    </div>
+                </div>
+            </div>
+            <div class="Exchange-lists large">
+                <div class="Exchange-list-container">
+                    <div class="Exchange-list-tab-container">
+                        <div class="Tab block Exchange-list-tabs">
+                            <div class="Tab-option muted active">Positions</div>
+                            <div class="Tab-option muted">Orders</div>
+                            <div class="Tab-option muted">Trades</div><span class="tab-items-animate-3"></span>
+                        </div>
+                    </div>
+                    <div class="PositionsList">
+                        <div class="PositionEditor"></div>
+                        <div class="Exchange-list small">
+                            <div>
+                                <div class="Exchange-empty-positions-list-note App-card">No open positions</div>
+                            </div>
+                        </div>
+                        <table class="Exchange-list large">
+                            <tbody>
+                                <tr class="Exchange-list-header">
+                                    <th>Position</th>
+                                    <th>Net Value</th>
+                                    <th>Size</th>
+                                    <th>Collateral</th>
+                                    <th>Entry Price</th>
+                                    <th>Mark Price</th>
+                                    <th>Liq. Price</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <td colspan="15">
+                                        <div class="Exchange-empty-positions-list-note">No open positions</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> write css for this html
+
+    <script>
+        // Function to toggle a class on an element
+        function toggleClass(elementId, className) {
+            var element = document.getElementById(elementId);
+            if (element) {
+                element.classList.toggle(className);
+            }
+        }
+</body >
+
+</html >
+
+
+
+
+
+
+
+
+        <!-- <!DOCTYPE html>
+        <html lang="en">
+        
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>TradingView Chart</title>
+        </head>
+        
+        <body>
+        
+            <div class="tradingview-widget-container">
+                <div id="tradingview_123456789" style="height: 500px;"></div>
+            </div>
+            <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+            <script type="text/javascript">
+                new TradingView.widget({
+                    "width": 980,
+                    "height": 610,
+                    "interval": "D",
+                    "timezone": "Etc/UTC",
+                    "theme": "dark",
+                    "style": "1",
+                    "locale": "en",
+                    "toolbar_bg": "#f1f3f6",
+                    "enable_publishing": false,
+                    "allow_symbol_change": true,
+                    "container_id": "tradingview_123456789",
+                    "hide_side_toolbar": false,
+                });
+            </script>
+        </body>
+        
+        </html> -->
